@@ -1,0 +1,187 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 580" width="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="c1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#0891b2"/>
+    </linearGradient>
+    <linearGradient id="c2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="c3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <linearGradient id="c4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ec4899"/>
+      <stop offset="100%" stop-color="#db2777"/>
+    </linearGradient>
+    <linearGradient id="c5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#16a34a"/>
+    </linearGradient>
+    <linearGradient id="c6" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ef4444"/>
+      <stop offset="100%" stop-color="#dc2626"/>
+    </linearGradient>
+    <linearGradient id="c7" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#64748b"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+    <filter id="gl" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+    <marker id="ma" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="rgba(255,255,255,0.5)"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="580" fill="url(#bg)" rx="16"/>
+
+  <!-- Title -->
+  <text x="600" y="42" font-family="Segoe UI,system-ui,sans-serif" font-size="22" font-weight="700" fill="#fff" text-anchor="middle" filter="url(#gl)">🗺️ User Journey &amp; Application Workflow</text>
+
+  <!-- Start: Landing -->
+  <rect x="50" y="100" width="140" height="90" fill="url(#c1)" rx="24" filter="url(#sh)" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  <text x="120" y="135" font-family="Segoe UI,system-ui,sans-serif" font-size="15" font-weight="700" fill="#fff" text-anchor="middle">🚀 Landing</text>
+  <text x="120" y="155" font-family="Segoe UI,system-ui,sans-serif" font-size="11" fill="rgba(255,255,255,0.9)" text-anchor="middle">Home Page</text>
+  <text x="120" y="170" font-family="Segoe UI,system-ui,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)" text-anchor="middle">Glassmorphism UI</text>
+
+  <!-- Arrow Landing -> Auth -->
+  <line x1="190" y1="145" x2="240" y2="145" stroke="rgba(255,255,255,0.3)" stroke-width="2.5" marker-end="url(#ma)"/>
+  <circle cx="215" cy="145" r="4" fill="#fff" filter="url(#gl)"/>
+
+  <!-- Auth -->
+  <rect x="240" y="100" width="140" height="90" fill="url(#c2)" rx="24" filter="url(#sh)" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  <text x="310" y="135" font-family="Segoe UI,system-ui,sans-serif" font-size="15" font-weight="700" fill="#fff" text-anchor="middle">🔐 Auth</text>
+  <text x="310" y="155" font-family="Segoe UI,system-ui,sans-serif" font-size="11" fill="rgba(255,255,255,0.9)" text-anchor="middle">Login / Register</text>
+  <text x="310" y="170" font-family="Segoe UI,system-ui,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)" text-anchor="middle">Flask-Login • WTForms</text>
+
+  <!-- Arrow Auth -> Dashboard -->
+  <line x1="380" y1="145" x2="430" y2="145" stroke="rgba(255,255,255,0.3)" stroke-width="2.5" marker-end="url(#ma)"/>
+  <circle cx="405" cy="145" r="4" fill="#fff" filter="url(#gl)"/>
+
+  <!-- Dashboard -->
+  <rect x="430" y="100" width="140" height="90" fill="url(#c3)" rx="24" filter="url(#sh)" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  <text x="500" y="135" font-family="Segoe UI,system-ui,sans-serif" font-size="15" font-weight="700" fill="#fff" text-anchor="middle">📊 Dashboard</text>
+  <text x="500" y="155" font-family="Segoe UI,system-ui,sans-serif" font-size="11" fill="rgba(255,255,255,0.9)" text-anchor="middle">Stats &amp; Charts</text>
+  <text x="500" y="170" font-family="Segoe UI,system-ui,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)" text-anchor="middle">Chart.js • Real-time</text>
+
+  <!-- Arrow Dashboard -> Upload -->
+  <line x1="570" y1="145" x2="620" y2="145" stroke="rgba(255,255,255,0.3)" stroke-width="2.5" marker-end="url(#ma)"/>
+  <circle cx="595" cy="145" r="4" fill="#fff" filter="url(#gl)"/>
+
+  <!-- Upload -->
+  <rect x="620" y="100" width="140" height="90" fill="url(#c4)" rx="24" filter="url(#sh)" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  <text x="690" y="135" font-family="Segoe UI,system-ui,sans-serif" font-size="15" font-weight="700" fill="#fff" text-anchor="middle">📤 Upload</text>
+  <text x="690" y="155" font-family="Segoe UI,system-ui,sans-serif" font-size="11" fill="rgba(255,255,255,0.9)" text-anchor="middle">MRI Scan</text>
+  <text x="690" y="170" font-family="Segoe UI,system-ui,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)" text-anchor="middle">Drag &amp; Drop • Preview</text>
+
+  <!-- Arrow Upload -> Result -->
+  <line x1="760" y1="145" x2="810" y2="145" stroke="rgba(255,255,255,0.3)" stroke-width="2.5" marker-end="url(#ma)"/>
+  <circle cx="785" cy="145" r="4" fill="#fff" filter="url(#gl)"/>
+
+  <!-- Result -->
+  <rect x="810" y="100" width="140" height="90" fill="url(#c5)" rx="24" filter="url(#sh)" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  <text x="880" y="135" font-family="Segoe UI,system-ui,sans-serif" font-size="15" font-weight="700" fill="#fff" text-anchor="middle">🎯 Result</text>
+  <text x="880" y="155" font-family="Segoe UI,system-ui,sans-serif" font-size="11" fill="rgba(255,255,255,0.9)" text-anchor="middle">Prediction + Confidence</text>
+  <text x="880" y="170" font-family="Segoe UI,system-ui,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)" text-anchor="middle">Probability Rings • Charts</text>
+
+  <!-- Arrow Result -> History -->
+  <line x1="880" y1="190" x2="880" y2="240" stroke="rgba(255,255,255,0.3)" stroke-width="2.5" marker-end="url(#ma)"/>
+  <circle cx="880" cy="215" r="4" fill="#fff" filter="url(#gl)"/>
+
+  <!-- History -->
+  <rect x="800" y="250" width="160" height="90" fill="url(#c3)" rx="24" filter="url(#sh)" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  <text x="880" y="285" font-family="Segoe UI,system-ui,sans-serif" font-size="15" font-weight="700" fill="#fff" text-anchor="middle">📜 History</text>
+  <text x="880" y="305" font-family="Segoe UI,system-ui,sans-serif" font-size="11" fill="rgba(255,255,255,0.9)" text-anchor="middle">Scan Records</text>
+  <text x="880" y="320" font-family="Segoe UI,system-ui,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)" text-anchor="middle">Pagination • Search • Filter</text>
+
+  <!-- Arrow History -> Dashboard (dashed) -->
+  <line x1="800" y1="295" x2="570" y2="295" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#ma)"/>
+  <circle cx="685" cy="295" r="3" fill="#fff" opacity="0.5" filter="url(#gl)"/>
+
+  <!-- Arrow Dashboard -> Profile -->
+  <line x1="500" y1="190" x2="500" y2="240" stroke="rgba(255,255,255,0.3)" stroke-width="2.5" marker-end="url(#ma)"/>
+  <circle cx="500" cy="215" r="4" fill="#fff" filter="url(#gl)"/>
+
+  <!-- Profile -->
+  <rect x="430" y="250" width="140" height="90" fill="url(#c1)" rx="24" filter="url(#sh)" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  <text x="500" y="285" font-family="Segoe UI,system-ui,sans-serif" font-size="15" font-weight="700" fill="#fff" text-anchor="middle">👤 Profile</text>
+  <text x="500" y="305" font-family="Segoe UI,system-ui,sans-serif" font-size="11" fill="rgba(255,255,255,0.9)" text-anchor="middle">Edit Account</text>
+  <text x="500" y="320" font-family="Segoe UI,system-ui,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)" text-anchor="middle">Avatar • Password • Info</text>
+
+  <!-- Arrow Profile -> Dashboard (dashed) -->
+  <line x1="570" y1="295" x2="800" y2="295" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#ma)"/>
+
+  <!-- Arrow Auth -> Admin -->
+  <line x1="310" y1="190" x2="310" y2="240" x2="200" y2="350" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#ma)"/>
+  <circle cx="255" cy="270" r="3" fill="#fff" opacity="0.5" filter="url(#gl)"/>
+
+  <!-- Admin Panel -->
+  <rect x="50" y="305" width="150" height="90" fill="url(#c6)" rx="24" filter="url(#sh)" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  <text x="125" y="340" font-family="Segoe UI,system-ui,sans-serif" font-size="15" font-weight="700" fill="#fff" text-anchor="middle">🛡️ Admin</text>
+  <text x="125" y="360" font-family="Segoe UI,system-ui,sans-serif" font-size="11" fill="rgba(255,255,255,0.9)" text-anchor="middle">User Management</text>
+  <text x="125" y="375" font-family="Segoe UI,system-ui,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)" text-anchor="middle">System Stats • Messages</text>
+
+  <!-- Arrow Admin -> Dashboard (dashed) -->
+  <line x1="200" y1="350" x2="430" y2="350" x2="430" y2="190" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#ma)"/>
+  <circle cx="315" cy="350" r="3" fill="#fff" opacity="0.5" filter="url(#gl)"/>
+
+  <!-- Public Pages (About/Contact) -->
+  <rect x="530" y="20" width="140" height="50" fill="rgba(255,255,255,0.08)" rx="12" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+  <text x="600" y="42" font-family="Segoe UI,system-ui,sans-serif" font-size="12" font-weight="700" fill="#94a3b8" text-anchor="middle">ℹ️ About / 📧 Contact</text>
+  <text x="600" y="58" font-family="Segoe UI,system-ui,sans-serif" font-size="9" fill="#64748b" text-anchor="middle">Public Pages • No Auth Required</text>
+
+  <!-- Arrow Landing -> Public Pages -->
+  <line x1="120" y1="100" x2="120" y2="60" x2="530" y2="45" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#ma)"/>
+  <circle cx="325" cy="52" r="3" fill="#fff" opacity="0.5" filter="url(#gl)"/>
+
+  <!-- Arrow Public Pages -> Landing (dashed) -->
+  <line x1="670" y1="45" x2="950" y2="45" x2="950" y2="100" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#ma)"/>
+
+  <!-- Info Panels -->
+  <rect x="50" y="420" width="260" height="140" fill="rgba(255,255,255,0.03)" rx="12" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text x="180" y="450" font-family="Segoe UI,system-ui,sans-serif" font-size="13" font-weight="700" fill="#94a3b8" text-anchor="middle">🎨 UI Features</text>
+  <text x="180" y="470" font-family="Segoe UI,system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Glassmorphism • Animations</text>
+  <text x="180" y="485" font-family="Segoe UI,system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Responsive • Dark Mode</text>
+  <text x="180" y="500" font-family="Segoe UI,system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Confidence Rings • Charts</text>
+  <text x="180" y="515" font-family="Segoe UI,system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Real-time Analytics</text>
+  <text x="180" y="530" font-family="Segoe UI,system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Drag &amp; Drop Upload</text>
+  <text x="180" y="545" font-family="Segoe UI,system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Interactive Data Viz</text>
+
+  <rect x="330" y="420" width="260" height="140" fill="rgba(255,255,255,0.03)" rx="12" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text x="460" y="450" font-family="Segoe UI,system-ui,sans-serif" font-size="13" font-weight="700" fill="#94a3b8" text-anchor="middle">🔒 Security</text>
+  <text x="460" y="470" font-family="Segoe UI,system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="middle">CSRF Protection</text>
+  <text x="460" y="485" font-family="Segoe UI,system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Password Hashing (Werkzeug)</text>
+  <text x="460" y="500" font-family="Segoe UI,system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Session Management</text>
+  <text x="460" y="515" font-family="Segoe UI,system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Role-Based Access Control</text>
+  <text x="460" y="530" font-family="Segoe UI,system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="middle">XSS &amp; SQL Injection Safe</text>
+  <text x="460" y="545" font-family="Segoe UI,system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Secure File Uploads</text>
+
+  <rect x="610" y="420" width="260" height="140" fill="rgba(255,255,255,0.03)" rx="12" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text x="740" y="450" font-family="Segoe UI,system-ui,sans-serif" font-size="13" font-weight="700" fill="#94a3b8" text-anchor="middle">🧠 AI Pipeline</text>
+  <text x="740" y="470" font-family="Segoe UI,system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Image Preprocessing</text>
+  <text x="740" y="485" font-family="Segoe UI,system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="middle">ANN Forward Pass</text>
+  <text x="740" y="500" font-family="Segoe UI,system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Softmax Classification</text>
+  <text x="740" y="515" font-family="Segoe UI,system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Simulation Mode Fallback</text>
+  <text x="740" y="530" font-family="Segoe UI,system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="middle">4-Class Tumor Detection</text>
+  <text x="740" y="545" font-family="Segoe UI,system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Confidence Scoring</text>
+
+  <rect x="890" y="420" width="260" height="140" fill="rgba(255,255,255,0.03)" rx="12" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text x="1020" y="450" font-family="Segoe UI,system-ui,sans-serif" font-size="13" font-weight="700" fill="#94a3b8" text-anchor="middle">💾 Data Management</text>
+  <text x="1020" y="470" font-family="Segoe UI,system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="middle">SQLite / PostgreSQL</text>
+  <text x="1020" y="485" font-family="Segoe UI,system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="middle">SQLAlchemy ORM</text>
+  <text x="1020" y="500" font-family="Segoe UI,system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Scan History Pagination</text>
+  <text x="1020" y="515" font-family="Segoe UI,system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="middle">User Profiles &amp; Avatars</text>
+  <text x="1020" y="530" font-family="Segoe UI,system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Contact Form Storage</text>
+  <text x="1020" y="545" font-family="Segoe UI,system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Admin Message Center</text>
+</svg>
