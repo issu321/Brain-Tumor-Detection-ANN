@@ -1,9 +1,5 @@
 <div align="center">
 
-<!-- Animated Typing Header -->
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=32&duration=3000&pause=1000&color=667EEA&center=true&vCenter=true&width=800&lines=🧠+Brain+Tumor+Detection;AI-Powered+Medical+Diagnosis;ANN+Classification+System" alt="Typing Header" />
-
-<br>
 
 <!-- Animated Shields -->
 <img src="https://img.shields.io/badge/Python-3.9+-blue?style=for-the-badge&logo=python&logoColor=white&color=3776AB" alt="Python" />
@@ -546,7 +542,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 
 <br>
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=18&duration=4000&pause=1000&color=38BDF8&center=true&vCenter=true&width=600&lines=Made+with+❤️+by+Mohammed+Usman;AI+for+Healthcare+🧠+💻;Open+Source+Medical+Diagnosis" alt="Footer" />
+
 
 <br><br>
 
