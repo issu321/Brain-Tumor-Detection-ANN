@@ -1,0 +1,256 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - {{ config.BRAND_NAME }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Welcome Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="glass-card p-4 fade-in">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="user-avatar" style="width: 60px; height: 60px; font-size: 1.5rem; background: linear-gradient(135deg, var(--primary), var(--accent));">
+                            {{ current_user.get_initials() }}
+                        </div>
+                        <div>
+                            <h4 class="mb-0" style="font-family: 'Space Grotesk', sans-serif; font-weight: 700;">Welcome back, {{ current_user.full_name or current_user.username }}!</h4>
+                            <p class="text-muted mb-0">{{ config.BRAND_TAGLINE }}</p>
+                        </div>
+                    </div>
+                    <a href="{{ url_for('upload_scan') }}" class="btn btn-glass-primary">
+                        <i class="fas fa-plus me-2"></i>New Scan
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-6 col-lg-3">
+            <div class="stat-card fade-in">
+                <div class="stat-icon primary"><i class="fas fa-scan"></i></div>
+                <div class="stat-value">{{ total_scans }}</div>
+                <div class="stat-label">Total Scans</div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="stat-card fade-in">
+                <div class="stat-icon danger"><i class="fas fa-exclamation-triangle"></i></div>
+                <div class="stat-value">{{ tumor_detected }}</div>
+                <div class="stat-label">Tumors Detected</div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="stat-card fade-in">
+                <div class="stat-icon success"><i class="fas fa-check-circle"></i></div>
+                <div class="stat-value">{{ no_tumor }}</div>
+                <div class="stat-label">Clear Scans</div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="stat-card fade-in">
+                <div class="stat-icon warning"><i class="fas fa-percentage"></i></div>
+                <div class="stat-value">{{ avg_confidence }}%</div>
+                <div class="stat-label">Avg Confidence</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="row g-4 mb-4">
+        <div class="col-lg-6">
+            <div class="chart-container fade-in">
+                <h5 style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; margin-bottom: 1.5rem;">
+                    <i class="fas fa-chart-pie me-2" style="color: var(--primary-light);"></i>Scan Results Distribution
+                </h5>
+                <div style="position: relative; height: 250px;">
+                    <canvas id="resultsChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="chart-container fade-in">
+                <h5 style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; margin-bottom: 1.5rem;">
+                    <i class="fas fa-chart-bar me-2" style="color: var(--secondary);"></i>Confidence Trend
+                </h5>
+                <div style="position: relative; height: 250px;">
+                    <canvas id="confidenceChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Scans -->
+    <div class="row">
+        <div class="col-12">
+            <div class="glass-card p-4 fade-in">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="mb-0" style="font-family: 'Space Grotesk', sans-serif; font-weight: 600;">
+                        <i class="fas fa-history me-2" style="color: var(--accent);"></i>Recent Scans
+                    </h5>
+                    <a href="{{ url_for('history') }}" class="btn btn-sm btn-glass-outline">View All</a>
+                </div>
+
+                {% if recent_scans %}
+                <div class="table-responsive glass-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Filename</th>
+                                <th>Result</th>
+                                <th>Confidence</th>
+                                <th>Processing Time</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for scan in recent_scans %}
+                            <tr>
+                                <td>{{ scan.scan_date.strftime('%b %d, %Y') }}</td>
+                                <td>{{ scan.original_filename }}</td>
+                                <td>
+                                    {% if scan.prediction == 'Tumor Detected' %}
+                                    <span class="badge-glass badge-glass-danger">{{ scan.tumor_type or 'Tumor' }}</span>
+                                    {% else %}
+                                    <span class="badge-glass badge-glass-success">No Tumor</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="progress progress-glass flex-grow-1" style="height: 6px; min-width: 60px;">
+                                            <div class="progress-bar" style="width: {{ scan.confidence_score }}%; background: {% if scan.confidence_score >= 90 %}var(--success){% elif scan.confidence_score >= 70 %}var(--warning){% else %}var(--danger){% endif %};"></div>
+                                        </div>
+                                        <span style="font-size: 0.85rem; min-width: 45px;">{{ "%.1f"|format(scan.confidence_score) }}%</span>
+                                    </div>
+                                </td>
+                                <td>{{ "%.2f"|format(scan.processing_time or 0) }}s</td>
+                                <td>
+                                    <a href="{{ url_for('scan_result', scan_id=scan.id) }}" class="btn btn-sm btn-glass-outline" style="padding: 0.3rem 0.8rem;">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-5">
+                    <i class="fas fa-inbox" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 1rem;"></i>
+                    <h5 class="text-muted">No scans yet</h5>
+                    <p class="text-muted">Upload your first MRI scan to get started</p>
+                    <a href="{{ url_for('upload_scan') }}" class="btn btn-glass-primary mt-2">
+                        <i class="fas fa-upload me-2"></i>Upload Scan
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Results Distribution Chart
+    const resultsCtx = document.getElementById('resultsChart');
+    if (resultsCtx) {
+        const chartLabels = {{ chart_labels | tojson }};
+        const chartData = {{ chart_data | tojson }};
+
+        // Check if all values are zero
+        const hasData = chartData.some(val => val > 0);
+
+        if (!hasData) {
+            resultsCtx.parentElement.innerHTML = '<div class="d-flex align-items-center justify-content-center" style="height: 250px;"><p class="text-muted"><i class="fas fa-chart-pie me-2"></i>No scan data available yet</p></div>';
+        } else {
+            new Chart(resultsCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: chartLabels,
+                    datasets: [{
+                        data: chartData,
+                        backgroundColor: [
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(239, 68, 68, 0.8)',
+                            'rgba(245, 158, 11, 0.8)',
+                            'rgba(139, 92, 246, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(16, 185, 129, 1)',
+                            'rgba(239, 68, 68, 1)',
+                            'rgba(245, 158, 11, 1)',
+                            'rgba(139, 92, 246, 1)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: '#cbd5e1', padding: 20 }
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+        }
+    }
+
+    // Confidence Trend Chart
+    const confCtx = document.getElementById('confidenceChart');
+    if (confCtx) {
+        const trendLabels = {{ trend_labels | tojson }};
+        const trendData = {{ trend_data | tojson }};
+
+        if (trendData.length === 0) {
+            confCtx.parentElement.innerHTML = '<div class="d-flex align-items-center justify-content-center" style="height: 250px;"><p class="text-muted"><i class="fas fa-chart-line me-2"></i>No scan data available yet</p></div>';
+        } else {
+            new Chart(confCtx, {
+                type: 'line',
+                data: {
+                    labels: trendLabels,
+                    datasets: [{
+                        label: 'Confidence Score',
+                        data: trendData,
+                        borderColor: 'rgba(99, 102, 241, 1)',
+                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: 'rgba(99, 102, 241, 1)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                            ticks: { color: '#94a3b8' }
+                        },
+                        y: {
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                            ticks: { color: '#94a3b8' },
+                            min: 0,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        }
+    }
+});
+</script>
+{% endblock %}

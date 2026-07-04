@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}Contact - {{ config.BRAND_NAME }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="row g-4">
+                <div class="col-lg-5">
+                    <div class="glass-card p-4 h-100 fade-in">
+                        <h3 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; margin-bottom: 1.5rem;">
+                            <i class="fas fa-address-book me-2" style="color: var(--primary-light);"></i>Contact Information
+                        </h3>
+
+                        <div class="mb-4">
+                            <div class="d-flex align-items-start mb-3">
+                                <div class="feature-icon" style="width: 44px; height: 44px; font-size: 1rem; margin-bottom: 0; margin-right: 1rem; flex-shrink: 0;">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1" style="font-weight: 600;">Developer</h6>
+                                    <p class="text-muted mb-0">{{ config.AUTHOR_NAME }}</p>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-start mb-3">
+                                <div class="feature-icon" style="width: 44px; height: 44px; font-size: 1rem; margin-bottom: 0; margin-right: 1rem; flex-shrink: 0; background: linear-gradient(135deg, #ef4444, #dc2626);">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1" style="font-weight: 600;">Email</h6>
+                                    <a href="mailto:{{ config.CONTACT_EMAIL }}" class="text-muted" style="text-decoration: none;">{{ config.CONTACT_EMAIL }}</a>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-start mb-3">
+                                <div class="feature-icon" style="width: 44px; height: 44px; font-size: 1rem; margin-bottom: 0; margin-right: 1rem; flex-shrink: 0; background: linear-gradient(135deg, #10b981, #059669);">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1" style="font-weight: 600;">Phone</h6>
+                                    <a href="tel:{{ config.CONTACT_PHONE }}" class="text-muted" style="text-decoration: none;">{{ config.CONTACT_PHONE }}</a>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-start mb-3">
+                                <div class="feature-icon" style="width: 44px; height: 44px; font-size: 1rem; margin-bottom: 0; margin-right: 1rem; flex-shrink: 0; background: linear-gradient(135deg, #333, #555);">
+                                    <i class="fab fa-github"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1" style="font-weight: 600;">GitHub</h6>
+                                    <a href="{{ config.GITHUB_REPO }}" target="_blank" class="text-muted" style="text-decoration: none;">{{ config.GITHUB_USERNAME }}</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="social-links mt-4">
+                            <a href="{{ config.GITHUB_REPO }}" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
+                            <a href="mailto:{{ config.CONTACT_EMAIL }}" class="social-link"><i class="fas fa-envelope"></i></a>
+                            <a href="tel:{{ config.CONTACT_PHONE }}" class="social-link"><i class="fas fa-phone"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-7">
+                    <div class="glass-card p-4 fade-in">
+                        <h3 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; margin-bottom: 1.5rem;">
+                            <i class="fas fa-paper-plane me-2" style="color: var(--secondary);"></i>Send Message
+                        </h3>
+
+                        <form method="POST" action="">
+                            {{ form.hidden_tag() }}
+
+                            <div class="mb-3">
+                                {{ form.name.label(class="form-label") }}
+                                {{ form.name(class="form-control glass-input", placeholder="Your name") }}
+                                {% if form.name.errors %}
+                                    <div class="invalid-feedback d-block">{% for error in form.name.errors %}{{ error }}{% endfor %}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-3">
+                                {{ form.email.label(class="form-label") }}
+                                {{ form.email(class="form-control glass-input", placeholder="your@email.com") }}
+                                {% if form.email.errors %}
+                                    <div class="invalid-feedback d-block">{% for error in form.email.errors %}{{ error }}{% endfor %}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-3">
+                                {{ form.subject.label(class="form-label") }}
+                                {{ form.subject(class="form-control glass-input", placeholder="Message subject") }}
+                                {% if form.subject.errors %}
+                                    <div class="invalid-feedback d-block">{% for error in form.subject.errors %}{{ error }}{% endfor %}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-3">
+                                {{ form.message.label(class="form-label") }}
+                                {{ form.message(class="form-control glass-input glass-textarea", placeholder="Your message...") }}
+                                {% if form.message.errors %}
+                                    <div class="invalid-feedback d-block">{% for error in form.message.errors %}{{ error }}{% endfor %}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="d-grid">
+                                {{ form.submit(class="btn btn-glass-primary") }}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

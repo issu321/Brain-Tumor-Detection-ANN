@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}Scan Result - {{ config.BRAND_NAME }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <!-- Result Header -->
+            <div class="glass-card p-4 mb-4 fade-in">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="result-icon {{ 'success' if scan.prediction == 'No Tumor' else 'danger' }}" style="width: 60px; height: 60px; font-size: 1.5rem; margin: 0;">
+                            <i class="fas fa-{{ 'check-circle' if scan.prediction == 'No Tumor' else 'exclamation-triangle' }}"></i>
+                        </div>
+                        <div>
+                            <h4 class="mb-0" style="font-family: 'Space Grotesk', sans-serif; font-weight: 700;">
+                                {% if scan.prediction == 'No Tumor' %}
+                                <span style="color: var(--success);">No Tumor Detected</span>
+                                {% else %}
+                                <span style="color: var(--danger);">Tumor Detected: {{ scan.tumor_type }}</span>
+                                {% endif %}
+                            </h4>
+                            <p class="text-muted mb-0">
+                                <i class="far fa-clock me-1"></i>{{ scan.scan_date.strftime('%B %d, %Y at %I:%M %p') }}
+                                <span class="mx-2">|</span>
+                                <i class="fas fa-microchip me-1"></i>{{ "%.2f"|format(scan.processing_time or 0) }}s processing
+                            </p>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <a href="{{ url_for('upload_scan') }}" class="btn btn-glass-primary">
+                            <i class="fas fa-plus me-2"></i>New Scan
+                        </a>
+                        <a href="{{ url_for('history') }}" class="btn btn-glass-outline">
+                            <i class="fas fa-history me-2"></i>History
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- Image Preview -->
+                <div class="col-lg-5">
+                    <div class="glass-card p-4 fade-in">
+                        <h5 class="mb-3" style="font-family: 'Space Grotesk', sans-serif; font-weight: 600;">
+                            <i class="fas fa-image me-2" style="color: var(--primary-light);"></i>Scan Image
+                        </h5>
+                        <div class="scan-preview">
+                            <img src="{{ url_for('static', filename='uploads/' + scan.filename) }}" alt="Scan Image" class="img-fluid rounded">
+                        </div>
+                        <div class="mt-3">
+                            <p class="text-muted mb-1"><strong>Filename:</strong> {{ scan.original_filename }}</p>
+                            {% if scan.notes %}
+                            <p class="text-muted mb-1"><strong>Notes:</strong> {{ scan.notes }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analysis Results -->
+                <div class="col-lg-7">
+                    <div class="glass-card p-4 fade-in mb-4">
+                        <h5 class="mb-4" style="font-family: 'Space Grotesk', sans-serif; font-weight: 600;">
+                            <i class="fas fa-chart-bar me-2" style="color: var(--secondary);"></i>Confidence Analysis
+                        </h5>
+
+                        <!-- Confidence Ring -->
+                        <div class="text-center mb-4">
+                            <div class="confidence-ring">
+                                <svg width="150" height="150" viewBox="0 0 150 150">
+                                    <circle class="confidence-ring-bg" cx="75" cy="75" r="65"></circle>
+                                    <circle class="confidence-ring-progress" cx="75" cy="75" r="65"
+                                        stroke="{% if scan.confidence_score >= 90 %}#10b981{% elif scan.confidence_score >= 70 %}#f59e0b{% else %}#ef4444{% endif %}"
+                                        stroke-dasharray="408.4"
+                                        stroke-dashoffset="{{ 408.4 - (408.4 * scan.confidence_score / 100) }}"></circle>
+                                </svg>
+                                <div class="confidence-text" style="color: {% if scan.confidence_score >= 90 %}#10b981{% elif scan.confidence_score >= 70 %}#f59e0b{% else %}#ef4444{% endif %}">
+                                    {{ "%.1f"|format(scan.confidence_score) }}%
+                                </div>
+                            </div>
+                            <p class="text-muted">Overall Confidence</p>
+                        </div>
+
+                        <!-- Probability Bars -->
+                        <div class="mb-3">
+                            <h6 class="mb-3" style="font-weight: 600;">Probability Distribution</h6>
+                            {% for class_name, prob in probabilities.items() %}
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span style="font-size: 0.9rem;">{{ class_name }}</span>
+                                    <span style="font-size: 0.9rem; font-weight: 600;">{{ "%.2f"|format(prob * 100) }}%</span>
+                                </div>
+                                <div class="progress progress-glass">
+                                    <div class="progress-bar" style="width: {{ prob * 100 }}%; background: {% if class_name == 'No Tumor' %}var(--success){% elif class_name == 'Glioma' %}var(--danger){% elif class_name == 'Meningioma' %}var(--warning){% else %}var(--info){% endif %};"></div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Recommendation -->
+                    <div class="glass-card p-4 fade-in">
+                        <h5 class="mb-3" style="font-family: 'Space Grotesk', sans-serif; font-weight: 600;">
+                            <i class="fas fa-user-md me-2" style="color: var(--accent);"></i>Recommendation
+                        </h5>
+                        {% if scan.prediction == 'No Tumor' %}
+                        <div class="alert" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--success); border-radius: 12px;">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <strong>Good news!</strong> No tumor was detected in this scan. However, we recommend consulting with a medical professional for confirmation and regular check-ups.
+                        </div>
+                        {% else %}
+                        <div class="alert" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: var(--danger); border-radius: 12px;">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <strong>Tumor detected!</strong> A {{ scan.tumor_type }} tumor was identified with {{ "%.1f"|format(scan.confidence_score) }}% confidence. Please consult a neurologist or oncologist immediately for further evaluation and treatment planning.
+                        </div>
+                        {% endif %}
+                        <div class="mt-3 p-3" style="background: rgba(255,255,255,0.03); border-radius: 12px;">
+                            <p class="text-muted mb-0" style="font-size: 0.9rem;">
+                                <i class="fas fa-info-circle me-2"></i>
+                                <strong>Disclaimer:</strong> This is an AI-assisted diagnostic tool and should not replace professional medical advice. Always consult with qualified healthcare providers for medical decisions.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

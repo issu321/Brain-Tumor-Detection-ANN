@@ -1,0 +1,260 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Scan - {{ config.BRAND_NAME }}{% endblock %}
+
+{% block extra_css %}
+<style>
+.upload-preview-container {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-preview-container img {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+}
+
+.upload-preview-container .placeholder {
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.upload-preview-container .placeholder i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.file-input-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    width: 100%;
+}
+
+.file-input-wrapper input[type=file] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+
+.drop-zone {
+    border: 2px dashed var(--glass-border);
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    background: var(--glass-bg);
+}
+
+.drop-zone:hover, .drop-zone.dragover {
+    border-color: var(--primary-light);
+    background: rgba(99, 102, 241, 0.05);
+}
+
+.drop-zone i {
+    font-size: 3rem;
+    color: var(--primary-light);
+    margin-bottom: 1rem;
+}
+
+.drop-zone h4 {
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.drop-zone p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+.scanning-animation {
+    display: none;
+}
+
+.scanning-animation.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+}
+
+.scan-line {
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--primary-light), transparent);
+    animation: scanLine 2s infinite ease-in-out;
+    margin: 2rem 0;
+}
+
+@keyframes scanLine {
+    0% { transform: translateY(-100px); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(100px); opacity: 0; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="glass-card p-4 p-md-5 fade-in">
+                <div class="text-center mb-4">
+                    <div class="brand-icon mx-auto mb-3" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                        <i class="fas fa-upload"></i>
+                    </div>
+                    <h3 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700;">Upload MRI Scan</h3>
+                    <p class="text-muted">Upload a brain MRI image for AI-powered tumor detection</p>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-lg-7">
+                        <form method="POST" action="" enctype="multipart/form-data" id="uploadForm">
+                            {{ form.hidden_tag() }}
+
+                            <div class="mb-4">
+                                <div class="drop-zone" id="dropZone" onclick="document.getElementById('scanFile').click()">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <h4>Drop your MRI scan here</h4>
+                                    <p>or click to browse (JPG, PNG, TIFF, BMP)</p>
+                                    <input type="file" id="scanFile" name="scanFile" accept="image/*" style="display: none;" required>
+                                </div>
+                                <div id="fileName" class="mt-2 text-center" style="color: var(--primary-light); font-weight: 500;"></div>
+                            </div>
+
+                            <div class="mb-4">
+                                {{ form.notes.label(class="form-label") }}
+                                {{ form.notes(class="form-control glass-input glass-textarea", placeholder="Add any notes about this scan (optional)...") }}
+                            </div>
+
+                            <div class="d-grid">
+                                {{ form.submit(class="btn btn-glass-primary btn-lg", id="analyzeBtn") }}
+                            </div>
+                        </form>
+
+                        <!-- Scanning Animation -->
+                        <div class="scanning-animation" id="scanningAnimation">
+                            <div class="brand-icon" style="width: 80px; height: 80px; font-size: 2rem;">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <h4 class="mt-3" style="font-family: 'Space Grotesk', sans-serif;">Analyzing Scan...</h4>
+                            <p class="text-muted">Our ANN model is processing your image</p>
+                            <div class="scan-line"></div>
+                            <div class="progress progress-glass w-100" style="max-width: 300px;">
+                                <div class="progress-bar" id="progressBar" style="width: 0%; background: linear-gradient(90deg, var(--primary), var(--secondary));"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5">
+                        <div class="upload-preview-container" id="previewContainer">
+                            <div class="placeholder" id="previewPlaceholder">
+                                <i class="fas fa-image"></i>
+                                <p>Image preview will appear here</p>
+                            </div>
+                            <img id="previewImage" style="display: none;" alt="Preview">
+                        </div>
+
+                        <div class="mt-4">
+                            <h6 style="font-weight: 600; margin-bottom: 1rem;">
+                                <i class="fas fa-info-circle me-2" style="color: var(--primary-light);"></i>Guidelines
+                            </h6>
+                            <ul class="list-unstyled" style="color: var(--text-muted);">
+                                <li class="mb-2"><i class="fas fa-check me-2" style="color: var(--success);"></i>Upload clear MRI scan images</li>
+                                <li class="mb-2"><i class="fas fa-check me-2" style="color: var(--success);"></i>Supported formats: JPG, PNG, TIFF, BMP</li>
+                                <li class="mb-2"><i class="fas fa-check me-2" style="color: var(--success);"></i>Max file size: 16MB</li>
+                                <li class="mb-2"><i class="fas fa-check me-2" style="color: var(--success);"></i>Axial view scans preferred</li>
+                                <li class="mb-2"><i class="fas fa-exclamation-triangle me-2" style="color: var(--warning);"></i>This is an AI assistive tool, not a medical diagnosis</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('scanFile');
+const fileName = document.getElementById('fileName');
+const previewImage = document.getElementById('previewImage');
+const previewPlaceholder = document.getElementById('previewPlaceholder');
+const uploadForm = document.getElementById('uploadForm');
+const scanningAnimation = document.getElementById('scanningAnimation');
+const progressBar = document.getElementById('progressBar');
+
+// Drag and drop
+dropZone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropZone.classList.add('dragover');
+});
+
+dropZone.addEventListener('dragleave', () => {
+    dropZone.classList.remove('dragover');
+});
+
+dropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropZone.classList.remove('dragover');
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+        fileInput.files = files;
+        handleFileSelect(files[0]);
+    }
+});
+
+fileInput.addEventListener('change', (e) => {
+    if (e.target.files.length > 0) {
+        handleFileSelect(e.target.files[0]);
+    }
+});
+
+function handleFileSelect(file) {
+    fileName.textContent = file.name;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        previewImage.src = e.target.result;
+        previewImage.style.display = 'block';
+        previewPlaceholder.style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+}
+
+uploadForm.addEventListener('submit', (e) => {
+    if (!fileInput.files.length) {
+        e.preventDefault();
+        alert('Please select an image file first.');
+        return;
+    }
+    uploadForm.style.display = 'none';
+    scanningAnimation.classList.add('active');
+
+    // Animate progress bar
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += Math.random() * 15;
+        if (progress > 90) progress = 90;
+        progressBar.style.width = progress + '%';
+    }, 200);
+});
+</script>
+{% endblock %}
+{% endblock %}

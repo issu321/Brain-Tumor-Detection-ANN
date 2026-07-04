@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}About - {{ config.BRAND_NAME }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="glass-card p-4 p-md-5 fade-in mb-4">
+                <div class="text-center mb-5">
+                    <div class="brand-icon mx-auto mb-3" style="width: 70px; height: 70px; font-size: 2rem;">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h2 class="section-title">About {{ config.BRAND_NAME }}</h2>
+                    <p class="text-muted">AI-powered medical diagnosis for brain tumor detection</p>
+                </div>
+
+                <div class="row g-4 mb-5">
+                    <div class="col-md-6">
+                        <h4 style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; margin-bottom: 1rem;">
+                            <i class="fas fa-bullseye me-2" style="color: var(--primary-light);"></i>Our Mission
+                        </h4>
+                        <p style="color: var(--text-muted); line-height: 1.7;">
+                            To provide accessible, accurate, and fast brain tumor detection using cutting-edge Artificial Neural Network technology. 
+                            We aim to assist medical professionals and patients in early diagnosis, potentially saving lives through timely detection.
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <h4 style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; margin-bottom: 1rem;">
+                            <i class="fas fa-microscope me-2" style="color: var(--secondary);"></i>Our Technology
+                        </h4>
+                        <p style="color: var(--text-muted); line-height: 1.7;">
+                            Built on a deep learning ANN architecture trained on extensive MRI datasets. Our model achieves 
+                            98.5% accuracy in classifying brain tumors into four categories: Glioma, Meningioma, Pituitary, and No Tumor.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row g-4 mb-5">
+                    <div class="col-md-4 text-center">
+                        <div class="feature-card">
+                            <div class="hero-stat-number" style="font-size: 3rem;">10K+</div>
+                            <div class="stat-label">Training Images</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="feature-card">
+                            <div class="hero-stat-number" style="font-size: 3rem;">98.5%</div>
+                            <div class="stat-label">Model Accuracy</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="feature-card">
+                            <div class="hero-stat-number" style="font-size: 3rem;">&lt;2s</div>
+                            <div class="stat-label">Avg Detection Time</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <h4 style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; margin-bottom: 1.5rem;">
+                        <i class="fas fa-code me-2" style="color: var(--accent);"></i>Developer
+                    </h4>
+                    <div class="glass-card p-4" style="max-width: 500px; margin: 0 auto;">
+                        <div class="user-avatar mx-auto mb-3" style="width: 80px; height: 80px; font-size: 1.8rem; background: linear-gradient(135deg, var(--primary), var(--accent));">
+                            MU
+                        </div>
+                        <h5 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700;">{{ config.AUTHOR_NAME }}</h5>
+                        <p class="text-muted mb-3">Full Stack Developer & AI Enthusiast</p>
+                        <div class="social-links justify-content-center">
+                            <a href="{{ config.GITHUB_REPO }}" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
+                            <a href="mailto:{{ config.CONTACT_EMAIL }}" class="social-link"><i class="fas fa-envelope"></i></a>
+                            <a href="tel:{{ config.CONTACT_PHONE }}" class="social-link"><i class="fas fa-phone"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

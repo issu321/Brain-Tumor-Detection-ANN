@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - {{ config.BRAND_NAME }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="glass-card p-4 p-md-5 fade-in">
+                <div class="text-center mb-4">
+                    <div class="user-avatar mx-auto mb-3" style="width: 100px; height: 100px; font-size: 2.5rem; background: linear-gradient(135deg, var(--primary), var(--accent));">
+                        {{ current_user.get_initials() }}
+                    </div>
+                    <h3 style="font-family: 'Space Grotesk', sans-serif; font-weight: 700;">{{ current_user.full_name or current_user.username }}</h3>
+                    <span class="badge-glass badge-glass-info">{{ current_user.role.title() }}</span>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <div class="p-3" style="background: rgba(255,255,255,0.03); border-radius: 12px;">
+                            <small class="text-muted">Username</small>
+                            <p class="mb-0 fw-semibold">{{ current_user.username }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3" style="background: rgba(255,255,255,0.03); border-radius: 12px;">
+                            <small class="text-muted">Email</small>
+                            <p class="mb-0 fw-semibold">{{ current_user.email }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3" style="background: rgba(255,255,255,0.03); border-radius: 12px;">
+                            <small class="text-muted">Phone</small>
+                            <p class="mb-0 fw-semibold">{{ current_user.phone or 'Not set' }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3" style="background: rgba(255,255,255,0.03); border-radius: 12px;">
+                            <small class="text-muted">Member Since</small>
+                            <p class="mb-0 fw-semibold">{{ current_user.created_at.strftime('%B %d, %Y') }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3" style="background: rgba(255,255,255,0.03); border-radius: 12px;">
+                            <small class="text-muted">Total Scans</small>
+                            <p class="mb-0 fw-semibold">{{ current_user.get_scan_count() }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3" style="background: rgba(255,255,255,0.03); border-radius: 12px;">
+                            <small class="text-muted">Last Login</small>
+                            <p class="mb-0 fw-semibold">{{ current_user.last_login.strftime('%B %d, %Y at %I:%M %p') if current_user.last_login else 'N/A' }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <hr style="border-color: var(--glass-border); margin: 2rem 0;">
+
+                <h5 class="mb-3" style="font-family: 'Space Grotesk', sans-serif; font-weight: 600;">
+                    <i class="fas fa-edit me-2" style="color: var(--primary-light);"></i>Edit Profile
+                </h5>
+
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+
+                    <div class="mb-3">
+                        {{ form.full_name.label(class="form-label") }}
+                        {{ form.full_name(class="form-control glass-input", value=current_user.full_name) }}
+                        {% if form.full_name.errors %}
+                            <div class="invalid-feedback d-block">{% for error in form.full_name.errors %}{{ error }}{% endfor %}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.phone.label(class="form-label") }}
+                        {{ form.phone(class="form-control glass-input", value=current_user.phone or '') }}
+                    </div>
+
+                    <div class="d-grid">
+                        {{ form.submit(class="btn btn-glass-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

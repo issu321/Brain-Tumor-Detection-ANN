@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}Scan History - {{ config.BRAND_NAME }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="glass-card p-4 fade-in">
+                <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+                    <div>
+                        <h4 class="mb-0" style="font-family: 'Space Grotesk', sans-serif; font-weight: 700;">
+                            <i class="fas fa-history me-2" style="color: var(--primary-light);"></i>Scan History
+                        </h4>
+                        <p class="text-muted mb-0">All your previous scans and results</p>
+                    </div>
+                    <a href="{{ url_for('upload_scan') }}" class="btn btn-glass-primary">
+                        <i class="fas fa-plus me-2"></i>New Scan
+                    </a>
+                </div>
+
+                {% if scans %}
+                <div class="table-responsive glass-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Date</th>
+                                <th>Image</th>
+                                <th>Filename</th>
+                                <th>Result</th>
+                                <th>Type</th>
+                                <th>Confidence</th>
+                                <th>Time</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for scan in scans %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ scan.scan_date.strftime('%b %d, %Y') }}<br><small class="text-muted">{{ scan.scan_date.strftime('%I:%M %p') }}</small></td>
+                                <td>
+                                    <img src="{{ url_for('static', filename='uploads/' + scan.filename) }}" alt="Scan" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px; border: 1px solid var(--glass-border);">
+                                </td>
+                                <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis;">{{ scan.original_filename }}</td>
+                                <td>
+                                    {% if scan.prediction == 'Tumor Detected' %}
+                                    <span class="badge-glass badge-glass-danger">Detected</span>
+                                    {% else %}
+                                    <span class="badge-glass badge-glass-success">Clear</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ scan.tumor_type or 'N/A' }}</td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="progress progress-glass" style="width: 60px; height: 6px;">
+                                            <div class="progress-bar" style="width: {{ scan.confidence_score }}%; background: {% if scan.confidence_score >= 90 %}var(--success){% elif scan.confidence_score >= 70 %}var(--warning){% else %}var(--danger){% endif %};"></div>
+                                        </div>
+                                        <span style="font-size: 0.8rem;">{{ "%.1f"|format(scan.confidence_score) }}%</span>
+                                    </div>
+                                </td>
+                                <td>{{ "%.2f"|format(scan.processing_time or 0) }}s</td>
+                                <td>
+                                    <a href="{{ url_for('scan_result', scan_id=scan.id) }}" class="btn btn-sm btn-glass-outline" style="padding: 0.3rem 0.8rem;" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                {% if pagination.pages > 1 %}
+                <nav class="mt-4">
+                    <ul class="pagination pagination-glass justify-content-center">
+                        {% if pagination.has_prev %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('history', page=pagination.prev_num) }}"><i class="fas fa-chevron-left"></i></a>
+                        </li>
+                        {% endif %}
+
+                        {% for page_num in pagination.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+                            {% if page_num %}
+                                {% if page_num == pagination.page %}
+                                <li class="page-item active"><span class="page-link">{{ page_num }}</span></li>
+                                {% else %}
+                                <li class="page-item"><a class="page-link" href="{{ url_for('history', page=page_num) }}">{{ page_num }}</a></li>
+                                {% endif %}
+                            {% else %}
+                            <li class="page-item disabled"><span class="page-link">...</span></li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if pagination.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('history', page=pagination.next_num) }}"><i class="fas fa-chevron-right"></i></a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+
+                {% else %}
+                <div class="text-center py-5">
+                    <i class="fas fa-inbox" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 1rem;"></i>
+                    <h5 class="text-muted">No scan history</h5>
+                    <p class="text-muted">You haven't uploaded any scans yet</p>
+                    <a href="{{ url_for('upload_scan') }}" class="btn btn-glass-primary mt-2">
+                        <i class="fas fa-upload me-2"></i>Upload First Scan
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

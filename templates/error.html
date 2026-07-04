@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Error {{ error_code }} - {{ config.BRAND_NAME }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <div class="glass-card p-5 fade-in">
+                <div class="mb-4">
+                    <i class="fas fa-exclamation-circle" style="font-size: 5rem; color: var(--danger);"></i>
+                </div>
+                <h1 class="display-1" style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: var(--danger);">{{ error_code }}</h1>
+                <h3 style="font-family: 'Space Grotesk', sans-serif; font-weight: 600;">{{ error_title }}</h3>
+                <p class="text-muted mb-4">{{ error_message }}</p>
+                <div class="d-flex gap-3 justify-content-center">
+                    <a href="{{ url_for('home') }}" class="btn btn-glass-primary">
+                        <i class="fas fa-home me-2"></i>Go Home
+                    </a>
+                    <a href="javascript:history.back()" class="btn btn-glass-outline">
+                        <i class="fas fa-arrow-left me-2"></i>Go Back
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Panel - {{ config.BRAND_NAME }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="glass-card p-4 fade-in">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="brand-icon" style="width: 50px; height: 50px; font-size: 1.3rem; background: linear-gradient(135deg, #f59e0b, #d97706);">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <div>
+                        <h4 class="mb-0" style="font-family: 'Space Grotesk', sans-serif; font-weight: 700;">Admin Dashboard</h4>
+                        <p class="text-muted mb-0">System overview and management</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Stats -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-6 col-lg-3">
+            <div class="stat-card fade-in">
+                <div class="stat-icon primary"><i class="fas fa-users"></i></div>
+                <div class="stat-value">{{ total_users }}</div>
+                <div class="stat-label">Total Users</div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="stat-card fade-in">
+                <div class="stat-icon success"><i class="fas fa-scan"></i></div>
+                <div class="stat-value">{{ total_scans_all }}</div>
+                <div class="stat-label">Total Scans</div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="stat-card fade-in">
+                <div class="stat-icon danger"><i class="fas fa-exclamation-triangle"></i></div>
+                <div class="stat-value">{{ total_tumors }}</div>
+                <div class="stat-label">Tumors Found</div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="stat-card fade-in">
+                <div class="stat-icon warning"><i class="fas fa-envelope"></i></div>
+                <div class="stat-value">{{ total_messages }}</div>
+                <div class="stat-label">Contact Messages</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Users Table -->
+        <div class="col-lg-8">
+            <div class="glass-card p-4 fade-in">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="mb-0" style="font-family: 'Space Grotesk', sans-serif; font-weight: 600;">
+                        <i class="fas fa-users me-2" style="color: var(--primary-light);"></i>All Users
+                    </h5>
+                    <button class="btn btn-sm btn-glass-primary" data-bs-toggle="modal" data-bs-target="#createUserModal">
+                        <i class="fas fa-plus me-1"></i>Add User
+                    </button>
+                </div>
+
+                <div class="table-responsive glass-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>User</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Scans</th>
+                                <th>Joined</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="user-avatar" style="width: 32px; height: 32px; font-size: 0.7rem;">{{ user.get_initials() }}</div>
+                                        <span>{{ user.username }}</span>
+                                    </div>
+                                </td>
+                                <td>{{ user.email }}</td>
+                                <td><span class="badge-glass badge-glass-{{ 'danger' if user.role == 'admin' else 'info' if user.role == 'doctor' else 'success' }}">{{ user.role.title() }}</span></td>
+                                <td>{{ user.get_scan_count() }}</td>
+                                <td>{{ user.created_at.strftime('%b %d, %Y') }}</td>
+                                <td>
+                                    {% if user.is_active %}
+                                    <span class="badge-glass badge-glass-success">Active</span>
+                                    {% else %}
+                                    <span class="badge-glass badge-glass-danger">Inactive</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="col-lg-4">
+            <div class="glass-card p-4 fade-in">
+                <h5 class="mb-3" style="font-family: 'Space Grotesk', sans-serif; font-weight: 600;">
+                    <i class="fas fa-chart-pie me-2" style="color: var(--secondary);"></i>Scan Distribution
+                </h5>
+                <div style="position: relative; height: 200px;">
+                    <canvas id="adminChart"></canvas>
+                </div>
+            </div>
+
+            <div class="glass-card p-4 fade-in mt-4">
+                <h5 class="mb-3" style="font-family: 'Space Grotesk', sans-serif; font-weight: 600;">
+                    <i class="fas fa-envelope me-2" style="color: var(--accent);"></i>Recent Messages
+                </h5>
+                {% if recent_messages %}
+                <div class="list-group list-group-flush" style="background: transparent;">
+                    {% for msg in recent_messages %}
+                    <div class="py-2" style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                        <div class="d-flex justify-content-between">
+                            <strong style="font-size: 0.9rem;">{{ msg.name }}</strong>
+                            <small class="text-muted">{{ msg.created_at.strftime('%b %d') }}</small>
+                        </div>
+                        <p class="text-muted mb-0" style="font-size: 0.85rem;">{{ msg.subject }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-muted text-center py-3">No messages yet</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create User Modal -->
+<div class="modal fade" id="createUserModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="font-family: 'Space Grotesk', sans-serif; font-weight: 700;">Create New User</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ url_for('admin_create_user') }}">
+                    {{ create_form.hidden_tag() }}
+
+                    <div class="mb-3">
+                        {{ create_form.username.label(class="form-label") }}
+                        {{ create_form.username(class="form-control glass-input") }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ create_form.email.label(class="form-label") }}
+                        {{ create_form.email(class="form-control glass-input") }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ create_form.full_name.label(class="form-label") }}
+                        {{ create_form.full_name(class="form-control glass-input") }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ create_form.phone.label(class="form-label") }}
+                        {{ create_form.phone(class="form-control glass-input") }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ create_form.password.label(class="form-label") }}
+                        {{ create_form.password(class="form-control glass-input") }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ create_form.role.label(class="form-label") }}
+                        {{ create_form.role(class="form-control glass-input") }}
+                    </div>
+
+                    <div class="d-grid">
+                        {{ create_form.submit(class="btn btn-glass-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const adminCtx = document.getElementById('adminChart');
+    if (adminCtx) {
+        const adminChartData = {{ admin_chart_data | tojson }};
+        const hasData = adminChartData.some(val => val > 0);
+
+        if (!hasData) {
+            adminCtx.parentElement.innerHTML = '<div class="d-flex align-items-center justify-content-center" style="height: 200px;"><p class="text-muted"><i class="fas fa-chart-pie me-2"></i>No scan data yet</p></div>';
+        } else {
+            new Chart(adminCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['No Tumor', 'Glioma', 'Meningioma', 'Pituitary'],
+                    datasets: [{
+                        data: adminChartData,
+                        backgroundColor: [
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(239, 68, 68, 0.8)',
+                            'rgba(245, 158, 11, 0.8)',
+                            'rgba(139, 92, 246, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(16, 185, 129, 1)',
+                            'rgba(239, 68, 68, 1)',
+                            'rgba(245, 158, 11, 1)',
+                            'rgba(139, 92, 246, 1)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: '#cbd5e1', padding: 15, font: { size: 11 } }
+                        }
+                    },
+                    cutout: '60%'
+                }
+            });
+        }
+    }
+});
+</script>
+{% endblock %}

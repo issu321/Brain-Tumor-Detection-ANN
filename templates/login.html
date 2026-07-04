@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Login - {{ config.BRAND_NAME }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5 col-lg-4">
+            <div class="glass-card p-4 p-md-5 fade-in">
+                <div class="text-center mb-4">
+                    <div class="brand-icon mx-auto mb-3" style="width: 56px; height: 56px; font-size: 1.5rem;">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="mb-1" style="font-family: 'Space Grotesk', sans-serif; font-weight: 700;">Welcome Back</h3>
+                    <p class="text-muted mb-0">Sign in to your account</p>
+                </div>
+
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+
+                    <div class="mb-3">
+                        {{ form.email.label(class="form-label") }}
+                        {{ form.email(class="form-control glass-input", placeholder="you@example.com") }}
+                        {% if form.email.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.email.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.password.label(class="form-label") }}
+                        {{ form.password(class="form-control glass-input", placeholder="Enter your password") }}
+                        {% if form.password.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.password.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3 d-flex justify-content-between align-items-center">
+                        <div class="form-check">
+                            {{ form.remember(class="form-check-input") }}
+                            {{ form.remember.label(class="form-check-label", style="color: var(--text-muted);") }}
+                        </div>
+                    </div>
+
+                    <div class="d-grid mb-3">
+                        {{ form.submit(class="btn btn-glass-primary w-100") }}
+                    </div>
+                </form>
+
+                <div class="text-center">
+                    <p class="text-muted mb-0">Don't have an account? <a href="{{ url_for('register') }}" style="color: var(--primary-light); text-decoration: none; font-weight: 600;">Register</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

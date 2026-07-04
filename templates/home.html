@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+
+{% block title %}Home - {{ config.BRAND_NAME }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="hero-content fade-in">
+                    <div class="badge-glass badge-glass-info mb-3 d-inline-block">
+                        <i class="fas fa-robot me-2"></i>AI-Powered Medical System
+                    </div>
+                    <h1 class="hero-title">Advanced Brain Tumor Detection Using <span style="color: var(--primary-light);">ANN</span></h1>
+                    <p class="hero-subtitle">Leverage the power of Artificial Neural Networks to detect brain tumors with high accuracy. Upload MRI scans and get instant, reliable diagnostic results.</p>
+                    <div class="d-flex gap-3 flex-wrap">
+                        {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('upload_scan') }}" class="btn btn-glass-primary btn-lg">
+                            <i class="fas fa-upload me-2"></i>New Scan
+                        </a>
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-glass-outline btn-lg">
+                            <i class="fas fa-chart-line me-2"></i>Dashboard
+                        </a>
+                        {% else %}
+                        <a href="{{ url_for('register') }}" class="btn btn-glass-primary btn-lg">
+                            <i class="fas fa-user-plus me-2"></i>Get Started
+                        </a>
+                        <a href="{{ url_for('login') }}" class="btn btn-glass-outline btn-lg">
+                            <i class="fas fa-sign-in-alt me-2"></i>Login
+                        </a>
+                        {% endif %}
+                    </div>
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <div class="hero-stat-number">98.5%</div>
+                            <div class="hero-stat-label">Accuracy</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-number">&lt;2s</div>
+                            <div class="hero-stat-label">Detection Speed</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-number">4</div>
+                            <div class="hero-stat-label">Tumor Types</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="hero-image-container fade-in">
+                    <div class="hero-image-glass">
+                        <i class="fas fa-brain hero-brain-icon pulse"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section">
+    <div class="container">
+        <h2 class="section-title">Powerful Features</h2>
+        <p class="section-subtitle">Everything you need for accurate brain tumor detection</p>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="feature-title">ANN-Based Detection</h3>
+                    <p class="feature-desc">Advanced Artificial Neural Network architecture trained on thousands of MRI scans for precise tumor classification.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #06b6d4, #3b82f6);">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="feature-title">Instant Results</h3>
+                    <p class="feature-desc">Get diagnostic results in seconds with confidence scores and detailed probability analysis for each tumor type.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #f472b6, #ec4899);">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Secure & Private</h3>
+                    <p class="feature-desc">All scans and results are encrypted and stored securely. Your medical data privacy is our top priority.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h3 class="feature-title">Scan History</h3>
+                    <p class="feature-desc">Track all your previous scans with detailed history, trends, and downloadable reports for medical records.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h3 class="feature-title">Analytics Dashboard</h3>
+                    <p class="feature-desc">Visualize your scan statistics with interactive charts and gain insights into detection patterns over time.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Responsive Design</h3>
+                    <p class="feature-desc">Access the platform from any device. Fully responsive interface optimized for desktop, tablet, and mobile.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works -->
+<section class="features-section" style="background: rgba(0,0,0,0.2);">
+    <div class="container">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-subtitle">Three simple steps to detect brain tumors</p>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <div class="feature-icon mx-auto" style="background: linear-gradient(135deg, #6366f1, #818cf8);">
+                        <span style="font-size: 1.5rem; font-weight: 700;">1</span>
+                    </div>
+                    <h3 class="feature-title">Upload MRI Scan</h3>
+                    <p class="feature-desc">Upload your brain MRI scan image in JPG, PNG, or TIFF format. Supports multiple file types.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <div class="feature-icon mx-auto" style="background: linear-gradient(135deg, #06b6d4, #3b82f6);">
+                        <span style="font-size: 1.5rem; font-weight: 700;">2</span>
+                    </div>
+                    <h3 class="feature-title">AI Analysis</h3>
+                    <p class="feature-desc">Our ANN model processes the image and analyzes patterns to detect presence and type of tumor.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <div class="feature-icon mx-auto" style="background: linear-gradient(135deg, #10b981, #059669);">
+                        <span style="font-size: 1.5rem; font-weight: 700;">3</span>
+                    </div>
+                    <h3 class="feature-title">Get Results</h3>
+                    <p class="feature-desc">Receive detailed results with confidence scores, tumor type classification, and probability breakdown.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Tumor Types -->
+<section class="features-section">
+    <div class="container">
+        <h2 class="section-title">Detectable Tumor Types</h2>
+        <p class="section-subtitle">Our system can identify the following brain tumor classifications</p>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card text-center">
+                    <div class="feature-icon mx-auto" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3 class="feature-title">Glioma</h3>
+                    <p class="feature-desc">A type of tumor that occurs in the brain and spinal cord, originating from glial cells.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card text-center">
+                    <div class="feature-icon mx-auto" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                        <i class="fas fa-circle"></i>
+                    </div>
+                    <h3 class="feature-title">Meningioma</h3>
+                    <p class="feature-desc">A tumor that arises from the meninges, the membranes that surround the brain and spinal cord.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card text-center">
+                    <div class="feature-icon mx-auto" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                        <i class="fas fa-dna"></i>
+                    </div>
+                    <h3 class="feature-title">Pituitary</h3>
+                    <p class="feature-desc">Tumors that develop in the pituitary gland at the base of the brain, affecting hormone production.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card text-center">
+                    <div class="feature-icon mx-auto" style="background: linear-gradient(135deg, #10b981, #059669);">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3 class="feature-title">No Tumor</h3>
+                    <p class="feature-desc">Healthy brain scan with no detectable tumor presence. Clean and normal MRI results.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="features-section" style="background: rgba(0,0,0,0.2);">
+    <div class="container text-center">
+        <div class="glass-card p-5" style="max-width: 800px; margin: 0 auto;">
+            <h2 class="section-title">Ready to Get Started?</h2>
+            <p class="section-subtitle">Join thousands of users who trust our AI-powered detection system</p>
+            <div class="d-flex gap-3 justify-content-center flex-wrap">
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('upload_scan') }}" class="btn btn-glass-primary btn-lg">
+                    <i class="fas fa-upload me-2"></i>Start New Scan
+                </a>
+                {% else %}
+                <a href="{{ url_for('register') }}" class="btn btn-glass-primary btn-lg">
+                    <i class="fas fa-user-plus me-2"></i>Create Free Account
+                </a>
+                <a href="{{ url_for('login') }}" class="btn btn-glass-outline btn-lg">
+                    <i class="fas fa-sign-in-alt me-2"></i>Login
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
