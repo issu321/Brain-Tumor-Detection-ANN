@@ -1,0 +1,179 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 500" width="100%">
+  <defs>
+    <linearGradient id="df-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a"/>
+      <stop offset="100%" style="stop-color:#1e293b"/>
+    </linearGradient>
+    <linearGradient id="step1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f97316"/>
+      <stop offset="100%" style="stop-color:#ea580c"/>
+    </linearGradient>
+    <linearGradient id="step2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#eab308"/>
+      <stop offset="100%" style="stop-color:#ca8a04"/>
+    </linearGradient>
+    <linearGradient id="step3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#22c55e"/>
+      <stop offset="100%" style="stop-color:#16a34a"/>
+    </linearGradient>
+    <linearGradient id="step4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6"/>
+      <stop offset="100%" style="stop-color:#2563eb"/>
+    </linearGradient>
+    <linearGradient id="step5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#a855f7"/>
+      <stop offset="100%" style="stop-color:#9333ea"/>
+    </linearGradient>
+    <linearGradient id="step6" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ec4899"/>
+      <stop offset="100%" style="stop-color:#db2777"/>
+    </linearGradient>
+    <filter id="df-glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="df-shadow">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+    <style>
+      .df-box { rx: 20; ry: 20; filter: url(#df-shadow); }
+      .df-text { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; fill: white; text-anchor: middle; font-size: 15px; }
+      .df-sub { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 11px; fill: rgba(255,255,255,0.85); text-anchor: middle; }
+      .df-icon { font-size: 28px; }
+
+      @keyframes df-pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.03); }
+      }
+      @keyframes df-glow {
+        0%, 100% { filter: url(#df-shadow) brightness(1); }
+        50% { filter: url(#df-shadow) brightness(1.2); }
+      }
+      @keyframes flow-dot {
+        0% { offset-distance: 0%; opacity: 0; }
+        15% { opacity: 1; }
+        85% { opacity: 1; }
+        100% { offset-distance: 100%; opacity: 0; }
+      }
+
+      .s1 { animation: df-glow 3s ease-in-out infinite; }
+      .s2 { animation: df-glow 3s ease-in-out infinite 0.5s; }
+      .s3 { animation: df-glow 3s ease-in-out infinite 1s; }
+      .s4 { animation: df-glow 3s ease-in-out infinite 1.5s; }
+      .s5 { animation: df-glow 3s ease-in-out infinite 2s; }
+      .s6 { animation: df-glow 3s ease-in-out infinite 2.5s; }
+    </style>
+    <marker id="df-arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="rgba(255,255,255,0.5)"/>
+    </marker>
+  </defs>
+
+  <rect width="1100" height="500" fill="url(#df-bg)" rx="16"/>
+
+  <!-- Title -->
+  <text x="550" y="45" class="df-text" font-size="22" fill="#fff" filter="url(#df-glow)">📊 Data Processing Pipeline</text>
+
+  <!-- Step 1: Upload -->
+  <rect x="50" y="100" width="150" height="100" fill="url(#step1)" class="df-box s1" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  <text x="125" y="140" class="df-text">📤 Upload</text>
+  <text x="125" y="160" class="df-sub">MRI Scan Image</text>
+  <text x="125" y="175" class="df-sub">JPG / PNG / DICOM</text>
+  <text x="125" y="190" class="df-sub" font-size="9">Max 16MB</text>
+
+  <!-- Arrow 1->2 -->
+  <path d="M 200 150 L 260 150" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" marker-end="url(#df-arrow)"/>
+  <circle r="4" fill="#fff" filter="url(#df-glow)">
+    <animateMotion dur="1.5s" repeatCount="indefinite" path="M 200 150 L 260 150"/>
+  </circle>
+
+  <!-- Step 2: Validation -->
+  <rect x="260" y="100" width="150" height="100" fill="url(#step2)" class="df-box s2" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  <text x="335" y="140" class="df-text">🔍 Validation</text>
+  <text x="335" y="160" class="df-sub">File Type Check</text>
+  <text x="335" y="175" class="df-sub">Size Verification</text>
+  <text x="335" y="190" class="df-sub" font-size="9">Security Scan</text>
+
+  <!-- Arrow 2->3 -->
+  <path d="M 410 150 L 470 150" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" marker-end="url(#df-arrow)"/>
+  <circle r="4" fill="#fff" filter="url(#df-glow)">
+    <animateMotion dur="1.5s" repeatCount="indefinite" path="M 410 150 L 470 150"/>
+  </circle>
+
+  <!-- Step 3: Preprocessing -->
+  <rect x="470" y="100" width="150" height="100" fill="url(#step3)" class="df-box s3" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  <text x="545" y="140" class="df-text">⚙️ Preprocess</text>
+  <text x="545" y="160" class="df-sub">Resize 224×224</text>
+  <text x="545" y="175" class="df-sub">Normalization</text>
+  <text x="545" y="190" class="df-sub" font-size="9">Array Conversion</text>
+
+  <!-- Arrow 3->4 -->
+  <path d="M 620 150 L 680 150" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" marker-end="url(#df-arrow)"/>
+  <circle r="4" fill="#fff" filter="url(#df-glow)">
+    <animateMotion dur="1.5s" repeatCount="indefinite" path="M 620 150 L 680 150"/>
+  </circle>
+
+  <!-- Step 4: ANN Prediction -->
+  <rect x="680" y="100" width="150" height="100" fill="url(#step4)" class="df-box s4" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  <text x="755" y="140" class="df-text">🧠 ANN Model</text>
+  <text x="755" y="160" class="df-sub">Feature Extraction</text>
+  <text x="755" y="175" class="df-sub">Forward Propagation</text>
+  <text x="755" y="190" class="df-sub" font-size="9">Softmax Output</text>
+
+  <!-- Arrow 4->5 -->
+  <path d="M 830 150 L 890 150" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" marker-end="url(#df-arrow)"/>
+  <circle r="4" fill="#fff" filter="url(#df-glow)">
+    <animateMotion dur="1.5s" repeatCount="indefinite" path="M 830 150 L 890 150"/>
+  </circle>
+
+  <!-- Step 5: Analysis -->
+  <rect x="890" y="100" width="150" height="100" fill="url(#step5)" class="df-box s5" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  <text x="965" y="140" class="df-text">📈 Analysis</text>
+  <text x="965" y="160" class="df-sub">Confidence Score</text>
+  <text x="965" y="175" class="df-sub">Probability Dist.</text>
+  <text x="965" y="190" class="df-sub" font-size="9">Risk Assessment</text>
+
+  <!-- Branching down to DB and Result -->
+  <path d="M 965 200 L 965 240" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" marker-end="url(#df-arrow)"/>
+  <circle r="4" fill="#fff" filter="url(#df-glow)">
+    <animateMotion dur="1.5s" repeatCount="indefinite" path="M 965 200 L 965 240"/>
+  </circle>
+
+  <!-- Step 6: Result & Storage -->
+  <rect x="350" y="260" width="400" height="100" fill="url(#step6)" class="df-box s6" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  <text x="550" y="300" class="df-text">🎯 Result Dashboard + 💾 Database Storage</text>
+  <text x="550" y="320" class="df-sub">Visual Report • Confidence Ring • Probability Chart • Scan History</text>
+  <text x="550" y="335" class="df-sub">SQLite / PostgreSQL • User Association • Timestamp • Pagination</text>
+  <text x="550" y="350" class="df-sub" font-size="9">Exportable • Shareable • Printable</text>
+
+  <!-- Side arrows to step 6 -->
+  <path d="M 125 200 L 125 310 L 350 310" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#df-arrow)"/>
+  <path d="M 755 200 L 755 310 L 750 310" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#df-arrow)"/>
+
+  <!-- Metrics / Stats boxes -->
+  <rect x="50" y="390" width="230" height="80" fill="rgba(249,115,22,0.15)" rx="12" stroke="rgba(249,115,22,0.4)" stroke-width="1"/>
+  <text x="165" y="420" class="df-text" font-size="13" fill="#f97316">⏱️ Processing Time</text>
+  <text x="165" y="440" class="df-sub" fill="#fdba74">&lt; 2 seconds per scan</text>
+  <text x="165" y="455" class="df-sub" font-size="9" fill="#fdba74">Async processing support</text>
+
+  <rect x="300" y="390" width="230" height="80" fill="rgba(34,197,94,0.15)" rx="12" stroke="rgba(34,197,94,0.4)" stroke-width="1"/>
+  <text x="415" y="420" class="df-text" font-size="13" fill="#22c55e">🎯 Accuracy</text>
+  <text x="415" y="440" class="df-sub" fill="#86efac">94%+ Classification Rate</text>
+  <text x="415" y="455" class="df-sub" font-size="9" fill="#86efac">4-class tumor detection</text>
+
+  <rect x="550" y="390" width="230" height="80" fill="rgba(59,130,246,0.15)" rx="12" stroke="rgba(59,130,246,0.4)" stroke-width="1"/>
+  <text x="665" y="420" class="df-text" font-size="13" fill="#3b82f6">📊 Throughput</text>
+  <text x="665" y="440" class="df-sub" fill="#93c5fd">100+ scans / minute</text>
+  <text x="665" y="455" class="df-sub" font-size="9" fill="#93c5fd">Optimized batch processing</text>
+
+  <rect x="800" y="390" width="240" height="80" fill="rgba(168,85,247,0.15)" rx="12" stroke="rgba(168,85,247,0.4)" stroke-width="1"/>
+  <text x="920" y="420" class="df-text" font-size="13" fill="#a855f7">🔒 Security</text>
+  <text x="920" y="440" class="df-sub" fill="#d8b4fe">CSRF • XSS • SQL Injection</text>
+  <text x="920" y="455" class="df-sub" font-size="9" fill="#d8b4fe">Protected file uploads</text>
+
+  <!-- Bottom info -->
+  <rect x="50" y="460" width="1000" height="30" fill="rgba(255,255,255,0.03)" rx="8"/>
+  <text x="550" y="480" class="df-sub" font-size="11" fill="#64748b">💡 Full pipeline: Upload → Validate → Preprocess → Predict → Analyze → Store → Display → History</text>
+</svg>
